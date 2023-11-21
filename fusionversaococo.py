@@ -61,95 +61,35 @@ def is_symmetric(arr):
     return np.array_equal(arr, arr.T)
 
 
-def calcula_K(nm, nn, Inc, N, E, A):
-    """
-    Calcula a matriz de rigidez global
-    """
-    # Inicializa a matriz de rigidez global
-    K = np.zeros((nn*2,nn*2))
-    
-    # Loop sobre os membros
-    for e in range(nm):
-        # Obtem os nos do elemento
-        no1 = int(Inc[e,0])
-        no2 = int(Inc[e,1])
-        
-        # Obtem as coordenadas dos nos
-        x1 = N[0,no1-1]
-        y1 = N[1,no1-1]
-        x2 = N[0,no2-1]
-        y2 = N[1,no2-1]
-        
-        # Calcula o comprimento do elemento
-        L = np.sqrt((x2-x1)**2+(y2-y1)**2)
-        
-        # Calcula o cosseno e o seno
-        c = (x2-x1)/L
-        s = (y2-y1)/L
-        
-        # Calcula a matriz de rigidez do elemento
-        KE = calcula_KE(E, A, L, c, s)
-        
-        # Obtem os graus de liberdade do elemento
-        GDL = np.array([no1*2-1, no1*2, no2*2-1, no2*2])
-        
-        # Adiciona a contribuicao do elemento a matriz de rigidez global
-        for i in range(4):
-            for j in range(4):
-                K[GDL[i]-1,GDL[j]-1] = K[GDL[i]-1,GDL[j]-1] + KE[i,j]
-    
-    return K
 
-def calcula_comprimento(nm, Inc, N):
+def assemble_global_stiffness_matrix(KE_matrices, nn):
     """
-    Calcula o comprimento de cada elemento
+    Assembles the global stiffness matrix from a list of individual element stiffness matrices.
     """
-    # Inicializa o vetor de comprimentos
-    L = np.zeros((nm,1))
-    
-    # Loop sobre os membros
-    for e in range(nm):
-        # Obtem os nos do elemento
-        no1 = int(Inc[e,0])
-        no2 = int(Inc[e,1])
-        
-        # Obtem as coordenadas dos nos
-        x1 = N[0,no1-1]
-        y1 = N[1,no1-1]
-        x2 = N[0,no2-1]
-        y2 = N[1,no2-1]
-        
-        # Calcula o comprimento do elemento
-        L[e] = np.sqrt((x2-x1)**2+(y2-y1)**2)
-    
-    return L
+    # Total number of nodes
+    total_nodes = nn * len(KE_matrices)
 
-def calcula_theta(nm, Inc, N):
-    """
-    Calcula o angulo de cada elemento
-    """
-    # Inicializa o vetor de angulos
-    theta = np.zeros((nm,1))
-    
-    # Loop sobre os membros
-    for e in range(nm):
-        # Obtem os nos do elemento
-        no1 = int(Inc[e,0])
-        no2 = int(Inc[e,1])
-        
-        # Obtem as coordenadas dos nos
-        x1 = N[0,no1-1]
-        y1 = N[1,no1-1]
-        x2 = N[0,no2-1]
-        y2 = N[1,no2-1]
-        
-        # Calcula o angulo do elemento
-        theta[e] = np.arctan((y2-y1)/(x2-x1))
-    
-    return theta
+    # Initialize the global stiffness matrix
+    K_global = np.zeros((total_nodes, total_nodes))
 
+    for i, KE in enumerate(KE_matrices):
+        # Determine the size of the element stiffness matrix
+        size_i, size_j = KE.shape
+
+        # Assemble the element stiffness matrix into the global stiffness matrix
+        for j in range(size_i):
+            i = i % nn
+            print(f"i: {i} \n")
+            for k in range(size_j):
+                # Assemble each term into the corresponding location in the global matrix
+                j = j % nn
+                print(f"j: {j} \n")
+                K_global[nn * i + j, nn * i + k] += KE[j, k]
+
+    return K_global
 
 # print('Lendo o arquivo de entrada')
 [nn,N,nm,Inc,nc,F,nr,R] = importa('entrada.xls')
 
-calcula_KE(Inc[0,2], Inc[0,3], N, nn )
+KE = calcula_KE(Inc[0,2], Inc[0,3], N, nn )
+K = assemble_global_stiffness_matrix(KE, nn)
