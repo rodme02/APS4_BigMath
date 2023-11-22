@@ -32,7 +32,6 @@ def gauss_seidel(ite, tol, K, F):
     iteracoes = 0
     erro_max = np.inf
     for i in range(ite):
-        print(i)
         x1 = (F[0] - K[0,1]*x2_old - K[0,2]*x3_old)/K[0,0]
         x2 = (F[1] - K[1,0]*x1 - K[1,2]*x3_old)/K[1,1]
         x3 = (F[2] - K[2,0]*x1 - K[2,1]*x2)/K[2,2]
