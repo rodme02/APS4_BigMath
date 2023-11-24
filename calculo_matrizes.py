@@ -73,13 +73,12 @@ def calcula_KG(lista_KE, Inc):
   return KG
 
 def CondicoesContorno_KG(KG, R):
-    # R is a 2D array containing the indices of rows and columns to be removed
-
-    # Flatten the 2D array R to a 1D array
     R = np.array(R).flatten().astype(int)
-
-    # Remove specified rows and columns from the global stiffness matrix
     KG = np.delete(KG, R, axis=0)
     KG = np.delete(KG, R, axis=1)
-
     return KG
+
+def CondicoesContorno_F(F, R):
+    R = np.array(R).flatten().astype(int)
+    F = np.delete(F, R, axis=0)
+    return F
