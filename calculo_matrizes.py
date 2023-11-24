@@ -1,8 +1,6 @@
 from funcoesTermosol import *
 import numpy as np
 
-lista_senos_elementos = []
-lista_cossenos_elementos = []
 
 # Função para verificar se uma matriz é simétrica
 def is_symmetric(arr):
@@ -12,6 +10,8 @@ def is_symmetric(arr):
 def calcula_KE(Inc, N):
 
     lista_KE = []
+    lista_cossenos = []
+    lista_senos = []
 
     # Loop para calcular a matriz de rigidez local de cada elemento
     for i in range(Inc.shape[0]):
@@ -35,8 +35,8 @@ def calcula_KE(Inc, N):
         # Cosseno e seno do ângulo de inclinação do elemento
         c = (x2 - x1) / L
         s = (y2 - y1) / L
-        lista_cossenos_elementos.append(c)
-        lista_senos_elementos.append(s)
+        lista_cossenos.append(c)
+        lista_senos.append(s)
 
         # Matriz de rigidez local do elemento
         KE = (E * A / L) * np.array(   [[c**2, c*s, -c**2, -c*s],
@@ -78,20 +78,11 @@ def calcula_KG(lista_KE, Inc):
   return KG
 
 def CondicoesContorno_KG(KG, R):
-    R = np.array(R).flatten().astype(int)
     KG = np.delete(KG, R, axis=0)
     KG = np.delete(KG, R, axis=1)
     return KG
 
-def CondicoesContorno_F(F, R):
-    R = np.array(R).flatten().astype(int)
+def CondicoesContorno_F(F, R): 
     F = np.delete(F, R, axis=0)
     return F
 
-def DeterminaDeformacao(nm):
-    for elemento in range(nm):
-        c = lista_cossenos_elementos[elemento]
-        s = lista_senos_elementos[elemento]
-
-
-    return 0

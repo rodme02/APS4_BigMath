@@ -9,28 +9,31 @@ import numpy as np
 lista_KE = calcula_KE(Inc, N)
 KG = calcula_KG(lista_KE, Inc)
 
+R = np.array(R).flatten().astype(int)
+
 KG_com_restricoes = CondicoesContorno_KG(KG, R)
 F_com_restricoes = CondicoesContorno_F(F, R)
-#print(F)
-#print(KG)
-#print(R)
-#print(nr)
-#print(KG_com_restricoes)
-#print(F_com_restricoes)
 
 #Tolerancias usadas em ambas foi recomendada pelo professor
-jacobi_feito = jacobi(100, 10e-10, KG_com_restricoes, F_com_restricoes)
-#print(jacobi_feito)
+solucao_jacobi, erro_max_jacobi, iteracoes_jacobi = jacobi(100, 10e-10, KG_com_restricoes, F_com_restricoes)
 
-# Vamos usar o gauss_seidel porque o resultado dele possui menos iterações e porque 
-gauss_seidel_feito = gauss_seidel(100, 10e-10, KG_com_restricoes, F_com_restricoes)
-#print(gauss_seidel_feito)
+# Vamos usar o gauss_seidel porque o resultado dele possui menos iterações e porque o erro máximo é menor
+solucao_gauss, erro_max_gauss, iteracoes_gauss = gauss_seidel(100, 10e-10, KG_com_restricoes, F_com_restricoes)
 
-deslocamentos =[]
-for i in gauss_seidel_feito[0]:
-    deslocamentos.append(i[0])
+# Deformações nodais
+deformacao_nodal = np.zeros((nm*2, 1))
+j = 0
+for i in range(nm*2):
+    if i not in R:
+        deformacao_nodal[i] = solucao_gauss[j]
+        j += 1
 
-print(deslocamentos)
+# Reações de apoio
+PG = KG.dot(deformacao_nodal)
+R1x = PG[0][0]
+R2x = PG[2][0]
+R2y = PG[3][0]
+print("R1x = ", R1x)
+print("R2x = ", R2x)
+print("R2y = ", R2y)
 
-#controle = np.linalg.solve(KG_com_restricoes, F_com_restricoes)
-#print(controle)
