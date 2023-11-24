@@ -39,17 +39,19 @@ Reacoes = np.array([R1x, R2x, R2y])
 lista_deformacoes = []
 lista_tensoes = []
 lista_forcas_internas = []
+lista_cossenos, lista_senos, lista_L, lista_E, lista_A, lista_n1, lista_n2 = CalculaParametros(Inc, N)
+
 for i in range(nm):
-        n1 = int(Inc[i, 0]) - 1
-        n2 = int(Inc[i, 1]) - 1
+        n1 = lista_n1[i]
+        n2 = lista_n2[i]
 
         x1, y1 = N[0, n1], N[1, n1]
         x2, y2 = N[0, n2], N[1, n2]
         
-        L = np.sqrt((x2 - x1)**2 + (y2 - y1)**2)
+        L = lista_L[i]
 
-        c = (x2 - x1) / L
-        s = (y2 - y1) / L
+        c = lista_cossenos[i]
+        s = lista_senos[i]
 
         u1 = deslocamentos[2*n1][0]
         v1 = deslocamentos[2*n1+1][0]

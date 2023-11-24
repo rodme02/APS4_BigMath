@@ -8,35 +8,17 @@ def is_symmetric(arr):
     return np.array_equal(arr, arr.T)
 
 def calcula_KE(Inc, N):
-
+    lista_cossenos, lista_senos, lista_L, lista_E, lista_A, n1, n2 = CalculaParametros(Inc, N)
     lista_KE = []
-    lista_cossenos = []
-    lista_senos = []
-
+    
     # Loop para calcular a matriz de rigidez local de cada elemento
     for i in range(Inc.shape[0]):
         # Nós do elemento
-        n1 = int(Inc[i, 0]) - 1
-        n2 = int(Inc[i, 1]) - 1
-
-        # Módulo de Young do elemento
-        E = Inc[i, 2]
-
-        # Área da seção transversal do elemento
-        A = Inc[i, 3]
-
-        # Coordenadas dos nós do elemento
-        x1, y1 = N[0, n1], N[1, n1]
-        x2, y2 = N[0, n2], N[1, n2]
-        
-        # Comprimento do elemento
-        L = np.sqrt((x2 - x1)**2 + (y2 - y1)**2)
-
-        # Cosseno e seno do ângulo de inclinação do elemento
-        c = (x2 - x1) / L
-        s = (y2 - y1) / L
-        lista_cossenos.append(c)
-        lista_senos.append(s)
+        c = lista_cossenos[i]
+        s = lista_senos[i]
+        L = lista_L[i]
+        E = lista_E[i]
+        A = lista_A[i]
 
         # Matriz de rigidez local do elemento
         KE = (E * A / L) * np.array(   [[c**2, c*s, -c**2, -c*s],
@@ -86,3 +68,45 @@ def CondicoesContorno_F(F, R):
     F = np.delete(F, R, axis=0)
     return F
 
+
+def CalculaParametros(Inc, N):
+    lista_cossenos = []
+    lista_senos = []
+    lista_L = []
+    lista_E = []
+    lista_A = []
+    lista_n1 = []
+    lista_n2 = []
+    # Loop para calcular a matriz de rigidez local de cada elemento
+    for i in range(Inc.shape[0]):
+        # Nós do elemento
+        n1 = int(Inc[i, 0]) - 1
+        n2 = int(Inc[i, 1]) - 1
+
+        # Módulo de Young do elemento
+        E = Inc[i, 2]
+
+        # Área da seção transversal do elemento
+        A = Inc[i, 3]
+
+        # Coordenadas dos nós do elemento
+        x1, y1 = N[0, n1], N[1, n1]
+        x2, y2 = N[0, n2], N[1, n2]
+        
+        # Comprimento do elemento
+        L = np.sqrt((x2 - x1)**2 + (y2 - y1)**2)
+
+        # Cosseno e seno do ângulo de inclinação do elemento
+        c = (x2 - x1) / L
+        s = (y2 - y1) / L
+        lista_L.append(L)
+        lista_cossenos.append(c)
+        lista_senos.append(s)
+        lista_E.append(E)
+        lista_A.append(A)
+        lista_n1.append(n1)
+        lista_n2.append(n2)
+
+
+    return lista_cossenos, lista_senos, lista_L, lista_E, lista_A, lista_n1, lista_n2
+    
