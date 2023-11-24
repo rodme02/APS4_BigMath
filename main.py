@@ -30,16 +30,16 @@ for i in range(nm*2):
 
 # Reações de apoio
 PG = KG.dot(deslocamentos)
-R1x = PG[0][0]
-R2x = PG[2][0]
-R2y = PG[3][0]
+R1x = PG[0][0]          # Reação de apoio no nó 1 na direção x
+R2x = PG[2][0]          # Reação de apoio no nó 2 na direção x
+R2y = PG[3][0]          # Reação de apoio no nó 2 na direção y
 Reacoes = np.array([R1x, R2x, R2y])
 
 # Tensões nos elementos
 lista_deformacoes = []
 lista_tensoes = []
 lista_forcas_internas = []
-lista_cossenos, lista_senos, lista_L, lista_E, lista_A, lista_n1, lista_n2 = CalculaParametros(Inc, N)
+lista_cossenos, lista_senos, lista_L, lista_E, lista_A, lista_n1, lista_n2 = CalculaParametros(Inc, N) # Calcula os parâmetros dos elementos
 
 for i in range(nm):
         n1 = lista_n1[i]
@@ -53,14 +53,14 @@ for i in range(nm):
         c = lista_cossenos[i]
         s = lista_senos[i]
 
-        u1 = deslocamentos[2*n1][0]
-        v1 = deslocamentos[2*n1+1][0]
-        u2 = deslocamentos[2*n2][0]
-        v2 = deslocamentos[2*n2+1][0]
+        u1 = deslocamentos[2*n1][0]     # Deslocamento na direção x do nó 1
+        v1 = deslocamentos[2*n1+1][0]   # Deslocamento na direção y do nó 1
+        u2 = deslocamentos[2*n2][0]     # Deslocamento na direção x do nó 2
+        v2 = deslocamentos[2*n2+1][0]   # Deslocamento na direção y do nó 2
 
-        deformacao = (1/L)*np.array([-c, -s, c, s]).dot(np.array([u1, v1, u2, v2]))
-        tensao = Inc[i, 2]*deformacao
-        forca_interna = tensao*Inc[i, 3]
+        deformacao = (1/L)*np.array([-c, -s, c, s]).dot(np.array([u1, v1, u2, v2])) # Deformação no elemento
+        tensao = Inc[i, 2]*deformacao                   # Tensão no elemento
+        forca_interna = tensao*Inc[i, 3]                # Força interna no elemento
 
         lista_deformacoes.append(deformacao)
         lista_tensoes.append(tensao)
