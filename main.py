@@ -21,19 +21,47 @@ solucao_jacobi, erro_max_jacobi, iteracoes_jacobi = jacobi(100, 10e-10, KG_com_r
 solucao_gauss, erro_max_gauss, iteracoes_gauss = gauss_seidel(100, 10e-10, KG_com_restricoes, F_com_restricoes)
 
 # Deformações nodais
-deformacao_nodal = np.zeros((nm*2, 1))
+deslocamentos= np.zeros((nm*2, 1))
 j = 0
 for i in range(nm*2):
     if i not in R:
-        deformacao_nodal[i] = solucao_gauss[j]
+        deslocamentos[i] = solucao_gauss[j]
         j += 1
 
 # Reações de apoio
-PG = KG.dot(deformacao_nodal)
+PG = KG.dot(deslocamentos)
 R1x = PG[0][0]
 R2x = PG[2][0]
 R2y = PG[3][0]
-print("R1x = ", R1x)
-print("R2x = ", R2x)
-print("R2y = ", R2y)
+Reacoes = np.array([R1x, R2x, R2y])
 
+# Tensões nos elementos
+lista_deformacoes = []
+lista_tensoes = []
+lista_forcas_internas = []
+for i in range(nm):
+        n1 = int(Inc[i, 0]) - 1
+        n2 = int(Inc[i, 1]) - 1
+
+        x1, y1 = N[0, n1], N[1, n1]
+        x2, y2 = N[0, n2], N[1, n2]
+        
+        L = np.sqrt((x2 - x1)**2 + (y2 - y1)**2)
+
+        c = (x2 - x1) / L
+        s = (y2 - y1) / L
+
+        u1 = deslocamentos[2*n1][0]
+        v1 = deslocamentos[2*n1+1][0]
+        u2 = deslocamentos[2*n2][0]
+        v2 = deslocamentos[2*n2+1][0]
+
+        deformacao = (1/L)*np.array([-c, -s, c, s]).dot(np.array([u1, v1, u2, v2]))
+        tensao = Inc[i, 2]*deformacao
+        forca_interna = tensao*Inc[i, 3]
+
+        lista_deformacoes.append(deformacao)
+        lista_tensoes.append(tensao)
+        lista_forcas_internas.append(forca_interna)
+
+geraSaida("saida.txt",Reacoes, deslocamentos, lista_deformacoes, lista_forcas_internas, lista_tensoes)
