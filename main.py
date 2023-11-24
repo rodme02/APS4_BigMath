@@ -20,13 +20,17 @@ F_com_restricoes = CondicoesContorno_F(F, R)
 
 #Tolerancias usadas em ambas foi recomendada pelo professor
 jacobi_feito = jacobi(100, 10e-10, KG_com_restricoes, F_com_restricoes)
-print(jacobi_feito)
-print("///////////////////////")
+#print(jacobi_feito)
 
 # Vamos usar o gauss_seidel porque o resultado dele possui menos iterações e porque 
 gauss_seidel_feito = gauss_seidel(100, 10e-10, KG_com_restricoes, F_com_restricoes)
-print(gauss_seidel_feito)
-print("///////////////////////")
+#print(gauss_seidel_feito)
 
-controle = np.linalg.solve(KG_com_restricoes, F_com_restricoes)
-print(controle)
+deslocamentos =[]
+for i in gauss_seidel_feito[0]:
+    deslocamentos.append(i[0])
+
+print(deslocamentos)
+
+#controle = np.linalg.solve(KG_com_restricoes, F_com_restricoes)
+#print(controle)

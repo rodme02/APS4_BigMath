@@ -82,3 +82,9 @@ def CondicoesContorno_F(F, R):
     R = np.array(R).flatten().astype(int)
     F = np.delete(F, R, axis=0)
     return F
+
+def DeterminaDeformacaoDeslocamento():
+
+
+    
+    return 0
