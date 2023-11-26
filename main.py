@@ -15,10 +15,13 @@ KG_com_restricoes = CondicoesContorno_KG(KG, R)
 F_com_restricoes = CondicoesContorno_F(F, R)
 
 #Tolerancias usadas em ambas foi recomendada pelo professor
-solucao_jacobi, erro_max_jacobi, iteracoes_jacobi = jacobi(100, 10e-10, KG_com_restricoes, F_com_restricoes)
+solucao_jacobi, erro_max_jacobi, iteracoes_jacobi = jacobi(1000, 1e-10, KG_com_restricoes, F_com_restricoes)
 
 # Vamos usar o gauss_seidel porque o resultado dele possui menos iterações e porque o erro máximo é menor
-solucao_gauss, erro_max_gauss, iteracoes_gauss = gauss_seidel(100, 10e-10, KG_com_restricoes, F_com_restricoes)
+solucao_gauss, erro_max_gauss, iteracoes_gauss = gauss_seidel(1000, 1e-10, KG_com_restricoes, F_com_restricoes)
+
+print("erro maximo gauss: ", erro_max_gauss)
+print("iteracoes gauss: ", iteracoes_gauss)
 
 # Deformações nodais
 deslocamentos= np.zeros((nn*2, 1))

@@ -58,29 +58,27 @@ def gauss_seidel(ite, tol, K, F):
 '''
     
 def gauss_seidel(ite, tol, K, F):
-    tamanho = len(F)
-    x_old = np.zeros(tamanho)
-    iteracoes = 0
-    erro_max = np.inf
-    for i in range(ite):
-        x = np.zeros(tamanho)
-        for j in range(tamanho):
-            soma = 0
-            for k in range(tamanho):
-                if k != j:
-                    soma += K[j,k]*x[k]
-            x[j] = (F[j] - soma)/K[j,j]
-        
-        for l in range(tamanho):
-            erro = np.abs((x[l] - x_old[l]) / x[l]) if x[l] != 0 else np.abs(x[l] - x_old[l])
-            if erro > erro_max:
-                erro_max = erro
-        
-        if erro_max <= tol:
-            break
-        
-        x_old = x
-        iteracoes = i + 1
+    n = len(F)
+    U = np.zeros(n)
+    Ei = np.inf
+    cont_ite = 0
 
-    solucao = x
-    return solucao, erro_max, iteracoes
+    for i in range(ite):
+        U_old = np.copy(U)
+        erros = []
+        for i in range(n):
+            s1 = sum(K[i][j] * U[j] for j in range(i))
+            s2 = sum(K[i][j] * U_old[j] for j in range(i + 1, n))
+            U[i] = (F[i] - s1 - s2) / K[i][i]
+            erro = abs((U[i] - U_old[i]) / U[i]) if U[i] != 0 else abs(U[i] - U_old[i])
+            erros.append(erro)
+
+        cont_ite += 1
+
+        Ei = max(erros)
+
+        if Ei < tol:
+            break
+
+
+    return U, Ei, cont_ite

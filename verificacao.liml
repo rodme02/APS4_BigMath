@@ -146,7 +146,7 @@
     </nodeselection>
     <table />
     <results>
-      <stats start="2023-11-26T15:19:49.31" end="2023-11-26T15:19:49.32" duration="" />
+      <stats start="2023-11-26T15:19:49.31" end="2023-11-26T15:19:49.32" duration=".01" />
       <node nid="1" displx="0" disply="0" displz="0" rotx="0" roty="0" rotz="-0.0237330404816961" tensileforce="-1547.13366395327" sheary="-1.0645753069092E-07" shearz="0" torsion="0" bendingmomy="0" bendingmomz="-8.470329472543E-21" twistangle="0" stresspt1="-294692126.46729" stresspt2="-294692126.46729" stresspt3="-294692126.46729" stresspt4="-294692126.46729" stressptu="-294692126.46729" displmag="0" />
       <node nid="2" displx="0.65660449898696" disply="-2.97539950166091" displz="0" rotx="0" roty="0" rotz="-0.00575961349970816" tensileforce="-2733.70189003472" sheary="1.97883992781666E-08" shearz="0" torsion="0" bendingmomy="0" bendingmomz="-1.38625608653237E-05" twistangle="0" stresspt1="-520689278.984672" stresspt2="-520689278.984672" stresspt3="-520720964.838078" stresspt4="-520720964.838078" stressptu="-520705121.911375" displmag="3.0469873092243" />
       <node nid="3" displx="0.300596162578184" disply="-3.1341547023527" displz="0" rotx="0" roty="0" rotz="-0.0036946456814795" tensileforce="581.249999868789" sheary="1.70992585515549E-08" shearz="0" torsion="0" bendingmomy="0" bendingmomz="-8.02470127253535E-06" twistangle="0" stresspt1="110723456.776462" stresspt2="110723456.776462" stresspt3="110705114.602125" stresspt4="110705114.602125" stressptu="110714285.689293" displmag="3.14853676351988" />
@@ -201,8 +201,8 @@
       <reactions>
         <forcex nid="1" value="2599.99999999999" />
         <forcey nid="1" value="2093.74999999999" />
-        <forcez nid="1" value="0" />
         <forcey nid="7" value="906.249999999985" />
+        <forcez nid="1" value="0" />
         <forcez nid="7" value="0" />
         <forcez nid="2" value="0" />
         <forcez nid="3" value="0" />
