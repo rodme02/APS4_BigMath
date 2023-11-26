@@ -5,6 +5,17 @@ from solucoes import *
 import numpy as np
 
 [nn,N,nm,Inc,nc,F,nr,R] = importa('validacao.xls')
+# print("nn: ", nn)
+# print("N: ", N)
+# print("nm: ", nm)
+# print("Inc: ", Inc)
+# print("nc: ", nc)
+# print("F: ", F)
+# print("nr: ", nr)
+# print("R: ", R)
+
+
+
 
 lista_KE = calcula_KE(Inc, N)
 KG = calcula_KG(lista_KE, Inc, nn)
@@ -15,10 +26,10 @@ KG_com_restricoes = CondicoesContorno_KG(KG, R)
 F_com_restricoes = CondicoesContorno_F(F, R)
 
 #Tolerancias usadas em ambas foi recomendada pelo professor
-solucao_jacobi, erro_max_jacobi, iteracoes_jacobi = jacobi(1000, 1e-10, KG_com_restricoes, F_com_restricoes)
+solucao_jacobi, erro_max_jacobi, iteracoes_jacobi = jacobi(1000000, 1e-1000, KG_com_restricoes, F_com_restricoes)
 
 # Vamos usar o gauss_seidel porque o resultado dele possui menos iterações e porque o erro máximo é menor
-solucao_gauss, erro_max_gauss, iteracoes_gauss = gauss_seidel(1000, 1e-10, KG_com_restricoes, F_com_restricoes)
+solucao_gauss, erro_max_gauss, iteracoes_gauss = gauss_seidel(1000000, 1e-1000, KG_com_restricoes, F_com_restricoes)
 
 print("erro maximo gauss: ", erro_max_gauss)
 print("iteracoes gauss: ", iteracoes_gauss)
