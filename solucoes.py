@@ -27,6 +27,7 @@ def jacobi(ite, tol, K, F):
     solucao = np.array([x1, x2, x3])
     return solucao, erro_max, iteracoes
 
+'''
 def gauss_seidel(ite, tol, K, F):
     x1_old, x2_old, x3_old = 0, 0, 0
     iteracoes = 0
@@ -52,4 +53,34 @@ def gauss_seidel(ite, tol, K, F):
         iteracoes = i + 1
 
     solucao = np.array([x1, x2, x3])
+    return solucao, erro_max, iteracoes
+
+'''
+    
+def gauss_seidel(ite, tol, K, F):
+    tamanho = len(F)
+    x_old = np.zeros(tamanho)
+    iteracoes = 0
+    erro_max = np.inf
+    for i in range(ite):
+        x = np.zeros(tamanho)
+        for j in range(tamanho):
+            soma = 0
+            for k in range(tamanho):
+                if k != j:
+                    soma += K[j,k]*x[k]
+            x[j] = (F[j] - soma)/K[j,j]
+        
+        for l in range(tamanho):
+            erro = np.abs((x[l] - x_old[l]) / x[l]) if x[l] != 0 else np.abs(x[l] - x_old[l])
+            if erro > erro_max:
+                erro_max = erro
+        
+        if erro_max <= tol:
+            break
+        
+        x_old = x
+        iteracoes = i + 1
+
+    solucao = x
     return solucao, erro_max, iteracoes
