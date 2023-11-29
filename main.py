@@ -14,9 +14,6 @@ import numpy as np
 # print("nr: ", nr)
 # print("R: ", R)
 
-
-
-
 lista_KE = calcula_KE(Inc, N)
 KG = calcula_KG(lista_KE, Inc, nn)
 
@@ -26,10 +23,10 @@ KG_com_restricoes = CondicoesContorno_KG(KG, R)
 F_com_restricoes = CondicoesContorno_F(F, R)
 
 #Tolerancias usadas em ambas foi recomendada pelo professor
-solucao_jacobi, erro_max_jacobi, iteracoes_jacobi = jacobi(1000000, 1e-1000, KG_com_restricoes, F_com_restricoes)
+#solucao_jacobi, erro_max_jacobi, iteracoes_jacobi = jacobi(1000, 1e-20, KG_com_restricoes, F_com_restricoes)
 
 # Vamos usar o gauss_seidel porque o resultado dele possui menos iterações e porque o erro máximo é menor
-solucao_gauss, erro_max_gauss, iteracoes_gauss = gauss_seidel(1000000, 1e-1000, KG_com_restricoes, F_com_restricoes)
+solucao_gauss, erro_max_gauss, iteracoes_gauss = gauss_seidel(1000, 1e-20, KG_com_restricoes, F_com_restricoes)
 
 print("erro maximo gauss: ", erro_max_gauss)
 print("iteracoes gauss: ", iteracoes_gauss)
@@ -49,7 +46,7 @@ R1x = PG[0][0]          # Reação de apoio no nó 1 na direção x
 R2x = PG[2][0]          # Reação de apoio no nó 2 na direção x
 R2y = PG[3][0]          # Reação de apoio no nó 2 na direção y
 reacoes_de_apoio = [R1x, R2x, R2y]
-reacoes_de_apoio = np.array([reacoes_de_apoio]).T
+reacoes_de_apoio = np.array([reacoes_de_apoio]).T       
 
 # Tensões nos elementos
 lista_deformacoes = []

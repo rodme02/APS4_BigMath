@@ -1,0 +1,45 @@
+﻿<liml8>
+  <analysis type="S30" />
+  <node nid="1" x="0" y="0" z="0" />
+  <node nid="2" x="0" y="0.4" z="0" />
+  <node nid="3" x="0" y="-0.4" z="0" />
+  <node nid="4" x="0.4" y="0" z="0" />
+  <elset name="Default" color="-6710887" material="Material">
+    <elem eid="1" shape="line2" nodes="1 4" />
+    <elem eid="2" shape="line2" nodes="2 2" />
+    <elem eid="3" shape="line2" nodes="2 4" />
+    <elem eid="4" shape="line2" nodes="3 4" />
+  </elset>
+  <displacement selection="Unnamed" axis="1">
+    <value>0</value>
+  </displacement>
+  <displacement selection="Unnamed(2)" axis="2">
+    <value>0</value>
+  </displacement>
+  <force selection="Unnamed(3)">
+    <x>150</x>
+    <y>-200</y>
+    <z>0</z>
+  </force>
+  <mat mid="1" name="Material">
+    <geometric type="RectBar" recta="5E-05" />
+  </mat>
+  <nodeselection name="Unnamed">
+    <node nid="2" />
+    <node nid="1" />
+    <node nid="3" />
+  </nodeselection>
+  <nodeselection name="Unnamed(2)">
+    <node nid="2" />
+    <node nid="1" />
+    <node nid="3" />
+  </nodeselection>
+  <nodeselection name="Unnamed(3)">
+    <node nid="4" />
+  </nodeselection>
+  <solution>
+    <analysis type="S30" />
+    <elset name="Default" color="-6710887" />
+    <table />
+  </solution>
+</liml8>
