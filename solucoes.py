@@ -26,8 +26,7 @@ def jacobi(ite, tol, K, F):
 
     solucao = np.array([x1, x2, x3])
     return solucao, erro_max, iteracoes
-
-    
+ 
 def gauss_seidel(ite, tol, K, F):
     n = len(F)
     U = np.zeros(n)

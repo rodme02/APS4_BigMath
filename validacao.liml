@@ -96,7 +96,14 @@
     <nodeselection name="Unnamed(3)">
       <node nid="1" />
     </nodeselection>
-    <table />
+    <table>
+      <component>Default</component>
+      <namedselection>Unnamed</namedselection>
+      <namedselection>Unnamed(2)</namedselection>
+      <namedselection>Unnamed(3)</namedselection>
+      <fieldvalue>displx</fieldvalue>
+      <fieldvalue>disply</fieldvalue>
+    </table>
     <results>
       <stats start="2023-11-29T15:13:35.41" end="2023-11-29T15:13:35.42" duration=".01" />
       <node nid="1" displx="0" disply="0" rotz="0" tensileforce="-764.099522458233" stressptu="-145542766.192419" displmag="0" />
@@ -151,8 +158,8 @@
         <localnode id="2" tensileforce="1066.66666666667" stressptu="203174603.188423" />
       </elem>
       <reactions>
-        <forcey nid="1" value="966.666666666669" />
         <forcex nid="1" value="1300" />
+        <forcey nid="1" value="966.666666666669" />
         <forcey nid="7" value="533.333333333336" />
       </reactions>
     </results>

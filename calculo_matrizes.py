@@ -39,18 +39,15 @@ def calcula_KG(Inc,N):
 
     return KG
 
-
 def reduz_matrizes(KG, F, R):
-    R = R.flatten().astype(int)
     KG_reduzido = np.delete(KG, R, axis=0)
     KG_reduzido = np.delete(KG_reduzido, R, axis=1)
     F_reduzido = np.delete(F, R, axis=0)
 
     return (KG_reduzido, F_reduzido)
 
-
 def sistema_de_equacoes(KG_reduzido, F_reduzido, nn, R):
-    U = gauss_seidel(1000, 1e-20, KG_reduzido, F_reduzido)
+    U = gauss_seidel(1000, 1e-100, KG_reduzido, F_reduzido)
 
     deslocamento = np.zeros((nn*2,1))
 
@@ -63,9 +60,6 @@ def sistema_de_equacoes(KG_reduzido, F_reduzido, nn, R):
 
 def reacao_de_apoio(deslocamento, kg, R):
     PG = kg.dot(deslocamento)
-    
-    # Convert R to integer indices
-    R = R.astype(int)
     
     reacoes_de_apoio = PG[R]
     reacoes_de_apoio = np.array([reacoes_de_apoio]).T
@@ -81,10 +75,10 @@ def deformacao_tensao_forca_interna(Inc, N, deslocamentos):
         n1 = int(Inc[i,0]) - 1
         n2 = int(Inc[i,1]) - 1
         
-        x1 = N[0,n1-1]
-        y1 = N[1,n1-1]
-        x2 = N[0,n2-1]
-        y2 = N[1,n2-1]
+        x1 = N[0,n1]
+        y1 = N[1,n1]
+        x2 = N[0,n2]
+        y2 = N[1,n2]
         
         L = sqrt((x2-x1)**2+(y2-y1)**2)
         c = (x2-x1)/L
